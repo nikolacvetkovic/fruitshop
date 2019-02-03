@@ -1,9 +1,11 @@
-package xyz.riocode.restapi.fruitshop;
+package xyz.riocode.restapi.fruitshop.bootstrap;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import xyz.riocode.restapi.fruitshop.domain.Category;
 import xyz.riocode.restapi.fruitshop.repository.CategoryRepository;
 
+@Component
 public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
