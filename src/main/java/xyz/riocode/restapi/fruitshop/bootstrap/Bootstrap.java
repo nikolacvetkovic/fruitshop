@@ -33,7 +33,7 @@ public class Bootstrap implements CommandLineRunner {
         category4.setName("Exotic");
 
         Category category5 = new Category();
-        category5.setName("nuts");
+        category5.setName("Nuts");
 
         categoryRepository.save(category1);
         categoryRepository.save(category2);
