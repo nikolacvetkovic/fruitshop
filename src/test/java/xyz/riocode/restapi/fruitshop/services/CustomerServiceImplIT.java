@@ -13,6 +13,7 @@ import xyz.riocode.restapi.fruitshop.bootstrap.Bootstrap;
 import xyz.riocode.restapi.fruitshop.domain.Customer;
 import xyz.riocode.restapi.fruitshop.repository.CategoryRepository;
 import xyz.riocode.restapi.fruitshop.repository.CustomerRepository;
+import xyz.riocode.restapi.fruitshop.repository.VendorRepository;
 
 import static org.junit.Assert.*;
 
@@ -26,12 +27,15 @@ public class CustomerServiceImplIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
     public void setUp() throws Exception {
         customerService = new CustomerServiceImpl(customerRepository, CustomerMapper.INSTANCE);
-        Bootstrap bootstrap = new Bootstrap(categoryRepository,customerRepository);
+        Bootstrap bootstrap = new Bootstrap(categoryRepository,customerRepository, vendorRepository);
         bootstrap.run();
 
     }

@@ -4,18 +4,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import xyz.riocode.restapi.fruitshop.domain.Category;
 import xyz.riocode.restapi.fruitshop.domain.Customer;
+import xyz.riocode.restapi.fruitshop.domain.Vendor;
 import xyz.riocode.restapi.fruitshop.repository.CategoryRepository;
 import xyz.riocode.restapi.fruitshop.repository.CustomerRepository;
+import xyz.riocode.restapi.fruitshop.repository.VendorRepository;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
     private CustomerRepository customerRepository;
+    private VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
@@ -60,5 +64,20 @@ public class Bootstrap implements CommandLineRunner {
         customerRepository.save(customer3);
 
         System.out.println("Customers loaded: " + customerRepository.count());
+
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Samsung");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Huawei");
+
+        Vendor vendor3 = new Vendor();
+        vendor3.setName("Vox");
+
+        vendorRepository.save(vendor1);
+        vendorRepository.save(vendor2);
+        vendorRepository.save(vendor3);
+
+        System.out.println("Vendors loaded: " + vendorRepository.count());
     }
 }
