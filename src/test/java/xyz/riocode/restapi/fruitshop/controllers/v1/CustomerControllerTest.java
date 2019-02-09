@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import xyz.riocode.restapi.fruitshop.api.v1.model.CustomerDTO;
+import xyz.riocode.restapi.fruitshop.controllers.RestResponseEntityExceptionHandler;
+import xyz.riocode.restapi.fruitshop.exceptions.ResourceNotFoundException;
 import xyz.riocode.restapi.fruitshop.services.CustomerService;
 
 import java.util.Arrays;
@@ -44,7 +46,7 @@ public class CustomerControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController).setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
         customer1 = new CustomerDTO();
         customer1.setFirstName(FIRST_NAME);
         customer1.setLastName(LAST_NAME);
@@ -84,6 +86,16 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
                 .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
+
+    }
+
+    @Test
+    public void testGetCustomerByIdNotFound() throws Exception {
+        when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.CUSTOMER_BASE_URL + "1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
     }
 

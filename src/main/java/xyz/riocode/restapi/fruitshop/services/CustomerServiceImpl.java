@@ -5,6 +5,7 @@ import xyz.riocode.restapi.fruitshop.api.v1.mapper.CustomerMapper;
 import xyz.riocode.restapi.fruitshop.api.v1.model.CustomerDTO;
 import xyz.riocode.restapi.fruitshop.controllers.v1.CustomerController;
 import xyz.riocode.restapi.fruitshop.domain.Customer;
+import xyz.riocode.restapi.fruitshop.exceptions.ResourceNotFoundException;
 import xyz.riocode.restapi.fruitshop.repository.CustomerRepository;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
+        Customer customer = customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
         customerDTO.setCustomerUrl(CustomerController.CUSTOMER_BASE_URL + customer.getId());
 
@@ -59,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
-        Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
+        Customer customer = customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         if(customerDTO.getFirstName() != null)
             customer.setFirstName(customerDTO.getFirstName());
         if(customerDTO.getLastName() != null)
